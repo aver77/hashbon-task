@@ -1,4 +1,6 @@
+import "./globalStyles.scss";
+import Routes from "./routes";
 const App = () => {
-    return <div>Hi!</div>;
+    return <Routes />;
 };
 export default App;
