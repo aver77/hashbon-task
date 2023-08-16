@@ -1,4 +1,6 @@
+import ChatModule from "modules/chatModule";
+
 const ChatPage = () => {
-    return <div>hi!</div>;
+    return <ChatModule />;
 };
 export default ChatPage;

@@ -1,0 +1,17 @@
+@import "src/shared/styles/vars";
+
+.outerContainer {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  background: white;
+  border-radius: $brDefault;
+  padding: 36px 20px;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 17px;
+}
