@@ -5,26 +5,42 @@ import { FC, useEffect, useRef, useState } from "react";
 import scrollToRef from "shared/utils/scrollToRef";
 import { IMessage } from "shared/models/interfaces";
 import MessageService from "shared/http/MessageService";
+import parseChunks from "shared/utils/parseChunks";
 
 interface IChatWindow {
     inputtedMessage: string;
-    setInputtedMessage: (msg: string) => void;
+    setInputtedMessageState: (msg: string, isDisabled: boolean) => void;
 }
-const ChatWindow: FC<IChatWindow> = ({ inputtedMessage, setInputtedMessage }) => {
+const ChatWindow: FC<IChatWindow> = ({ inputtedMessage, setInputtedMessageState }) => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    //handle my messages
     useEffect(() => {
         if (inputtedMessage) {
-            setMessages((prev) => [...prev, { msg: inputtedMessage, msgType: MessageType.MINE }]);
+            const updatedMessages = [
+                ...messages,
+                { msg: inputtedMessage, msgType: MessageType.MINE }
+            ];
+            setMessages(updatedMessages);
+            scrollToRef(messagesEndRef.current, {
+                behavior: "smooth"
+            });
+
+            MessageService.sendMessage(inputtedMessage)
+                .then((data) => {
+                    setMessages([
+                        ...updatedMessages,
+                        { msg: parseChunks(data), msgType: MessageType.BOT }
+                    ]);
+
+                    setInputtedMessageState("", false);
+
+                    scrollToRef(messagesEndRef.current, {
+                        behavior: "smooth"
+                    });
+                })
+                .catch((e) => console.log(e));
         }
-
-        setInputtedMessage("");
-
-        scrollToRef(messagesEndRef.current, {
-            behavior: "smooth"
-        });
     }, [inputtedMessage]);
 
     return (

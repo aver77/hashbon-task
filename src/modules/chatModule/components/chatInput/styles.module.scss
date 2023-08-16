@@ -10,9 +10,13 @@
   background: white;
   border-radius: $brDefault;
   padding: 20px 28px;
+  border: none;
   &::placeholder {
     color: $cLightGray;
     font-size: $fsTextLg;
+  }
+  &.disabled {
+    border: 2px solid red;
   }
 }
 
@@ -20,4 +24,8 @@
   position: absolute;
   top: 10px;
   right: 12px;
+  &.disabled {
+    background: lightgray;
+    cursor: not-allowed;
+  }
 }

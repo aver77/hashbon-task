@@ -1,17 +1,19 @@
 import { Circle } from "shared/ui";
 import { useState, ChangeEvent, FC, KeyboardEvent } from "react";
+import cx from "classnames";
 
 import carbonSvg from "assets/svgs/carbon.svg";
 import styles from "./styles.module.scss";
 
 interface IChatInput {
-    setInputtedMessage: (msg: string) => void;
+    inputMessageDisabled: boolean;
+    setInputtedMessageState: (msg: string, isDisabled: boolean) => void;
 }
-const ChatInput: FC<IChatInput> = ({ setInputtedMessage }) => {
+const ChatInput: FC<IChatInput> = ({ inputMessageDisabled, setInputtedMessageState }) => {
     const [inputValue, setInputValue] = useState("");
     const onSetMessage = () => {
         if (inputValue) {
-            setInputtedMessage(inputValue);
+            setInputtedMessageState(inputValue, true);
             setInputValue("");
         }
     };
@@ -31,13 +33,17 @@ const ChatInput: FC<IChatInput> = ({ setInputtedMessage }) => {
                 value={inputValue}
                 onChange={onInputChange}
                 placeholder={"Start typing here..."}
-                className={styles.input}
+                className={cx(styles.input, inputMessageDisabled && styles.disabled)}
                 onKeyDown={onInputKeyDown}
+                disabled={inputMessageDisabled}
             />
             <Circle
                 alt={"carbon"}
                 src={carbonSvg}
-                className={styles.circle}
+                className={cx(
+                    styles.circle,
+                    !inputValue && inputMessageDisabled && styles.disabled
+                )}
                 onClick={onSetMessage}
             />
         </div>
