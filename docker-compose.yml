@@ -1,0 +1,16 @@
+version: '3'
+services:
+  client:
+    image: hashboon-task
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hashboon-task
+    volumes:
+      - /tmp/hashboon-task/npm-cache:/root/.npm:z
+      - ./hashboon-task/src:/app/src:z
+    ports:
+      - "5111:80"
+    environment:
+      - PORT=80
+    restart: "no"
