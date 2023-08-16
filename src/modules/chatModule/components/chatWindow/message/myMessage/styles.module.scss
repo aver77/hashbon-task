@@ -1,0 +1,19 @@
+@import "src/shared/styles/vars";
+
+.message {
+  font-size: $fsTextMd;
+  padding: 12px 20px;
+  border-radius: $brCircled;
+  background: $cDarkBlue;
+  color: white;
+  word-break: break-word;
+}
+
+.circle {
+  background: $cLightBlue;
+  &Content {
+    color: $cBrownBlue;
+    font-size: $fsTextMd;
+    font-weight: 700;
+  }
+}

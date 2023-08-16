@@ -1,0 +1,24 @@
+@import "src/shared/styles/vars";
+
+.outerContainer {
+  display: flex;
+  &.bot {
+    justify-content: start;
+  }
+  &.my {
+    justify-content: end;
+  }
+}
+
+.innerContainer {
+  max-width: 50%;
+  width: fit-content;
+  gap: 13px;
+  display: flex;
+  &.bot {
+    flex-direction: row-reverse;
+  }
+  &.my {
+    flex-direction: row;
+  }
+}
