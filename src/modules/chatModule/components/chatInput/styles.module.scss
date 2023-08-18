@@ -1,8 +1,11 @@
 @import "src/shared/styles/vars";
 
 .container {
-  padding-bottom: 60px;
+  padding-bottom: $pDesktop;
   position: relative;
+  @media screen and (max-width: $dimensionMob) {
+    padding-bottom: $pMobile;
+  }
 }
 
 .input {
