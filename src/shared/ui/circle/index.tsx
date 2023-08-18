@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes, memo } from "react";
 import cx from "classnames";
 
 import styles from "./styles.module.scss";
@@ -24,4 +24,4 @@ const Circle: FC<Partial<ICircle> & HTMLAttributes<HTMLDivElement>> = ({
         </div>
     );
 };
-export default Circle;
+export default memo(Circle);

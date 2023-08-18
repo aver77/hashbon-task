@@ -6,15 +6,23 @@ import scrollToRef from "shared/utils/scrollToRef";
 import { IMessage } from "shared/models/interfaces";
 import MessageService from "shared/http/MessageService";
 import { sleep } from "shared/utils/sleep";
-import { SEPARATOR } from "./constants";
+import { SEPARATOR, AMOUNT_OF_MESSAGES_TO_STORE } from "./constants";
 
 interface IChatWindow {
     inputtedMessage: string;
     setInputtedMessageState: (msg: string, isDisabled: boolean) => void;
 }
 const ChatWindow: FC<IChatWindow> = ({ inputtedMessage, setInputtedMessageState }) => {
-    const [messages, setMessages] = useState<IMessage[]>([]);
+    const storageMessages: IMessage[] = JSON.parse(localStorage.getItem("messages") ?? "[]");
+
+    const [messages, setMessages] = useState<IMessage[]>(storageMessages);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        scrollToRef(messagesEndRef.current, {
+            behavior: "smooth"
+        });
+    }, []);
 
     useEffect(() => {
         const handleBotMessageStream = async () => {
@@ -28,6 +36,7 @@ const ChatWindow: FC<IChatWindow> = ({ inputtedMessage, setInputtedMessageState 
                 const reader = botMessage.body.getReader();
 
                 let readerText = "";
+
                 for (;;) {
                     const { done, value } = await reader.read();
 
@@ -52,26 +61,36 @@ const ChatWindow: FC<IChatWindow> = ({ inputtedMessage, setInputtedMessageState 
                                     const { msgType: lastMessageMsgType, msg: lastMessageMsg } =
                                         prevMessages.slice(-1)[0];
 
-                                    return lastMessageMsgType !== MessageType.BOT
-                                        ? [
-                                              ...prevMessages,
-                                              { msg: chunkData.value, msgType: MessageType.BOT }
-                                          ]
-                                        : [
-                                              ...prevMessages.slice(0, -1),
-                                              {
-                                                  msg: lastMessageMsg + chunkData.value,
-                                                  msgType: lastMessageMsgType
-                                              }
-                                          ];
+                                    const newMessages =
+                                        lastMessageMsgType !== MessageType.BOT
+                                            ? [
+                                                  ...prevMessages,
+                                                  { msg: chunkData.value, msgType: MessageType.BOT }
+                                              ]
+                                            : [
+                                                  ...prevMessages.slice(0, -1),
+                                                  {
+                                                      msg: lastMessageMsg + chunkData.value,
+                                                      msgType: lastMessageMsgType
+                                                  }
+                                              ];
+
+                                    localStorage.setItem(
+                                        "messages",
+                                        JSON.stringify(
+                                            newMessages.slice(-AMOUNT_OF_MESSAGES_TO_STORE)
+                                        )
+                                    );
+
+                                    scrollToRef(messagesEndRef.current, {
+                                        behavior: "smooth"
+                                    });
+
+                                    return newMessages;
                                 });
                                 await sleep(50);
                             } else if (chunkData.status === "done") {
                                 setInputtedMessageState("", false);
-
-                                scrollToRef(messagesEndRef.current, {
-                                    behavior: "smooth"
-                                });
                             }
                         }
                     }
@@ -82,10 +101,18 @@ const ChatWindow: FC<IChatWindow> = ({ inputtedMessage, setInputtedMessageState 
         };
 
         if (inputtedMessage) {
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                { msg: inputtedMessage, msgType: MessageType.MINE }
-            ]);
+            setMessages((prevMessages) => {
+                const newMessages = [
+                    ...prevMessages,
+                    { msg: inputtedMessage, msgType: MessageType.MINE }
+                ];
+                localStorage.setItem(
+                    "messages",
+                    JSON.stringify(newMessages.slice(-AMOUNT_OF_MESSAGES_TO_STORE))
+                );
+                return newMessages;
+            });
+
             scrollToRef(messagesEndRef.current, {
                 behavior: "smooth"
             });
