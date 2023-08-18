@@ -1,9 +1,19 @@
-import axios from "axios";
 import { API_BASE } from "./api";
 
 class MessageService {
     async sendMessage(message: string) {
-        const { data } = await axios.post<string>(`${API_BASE}/send-message`, { message });
+        const data = await fetch(`${API_BASE}/send-message`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message })
+        });
+
+        if (!data.ok) {
+            return null;
+        }
+
         return data;
     }
 }

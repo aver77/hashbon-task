@@ -16,7 +16,10 @@
     font-size: $fsTextLg;
   }
   &.disabled {
-    border: 2px solid red;
+    background: $bgDisabled;
+    &::placeholder {
+      color: $cDisabled;
+    }
   }
 }
 
@@ -25,7 +28,7 @@
   top: 10px;
   right: 12px;
   &.disabled {
-    background: lightgray;
+    background: $cDisabled;
     cursor: not-allowed;
   }
 }

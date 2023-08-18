@@ -5,13 +5,15 @@ import cx from "classnames";
 import styles from "./styles.module.scss";
 import robotSvg from "assets/svgs/robot.svg";
 
-interface IMyMessage {
+interface IBotMessage {
     msg: string;
 }
-const BotMessage: FC<IMyMessage> = ({ msg }) => {
+const BotMessage: FC<IBotMessage> = ({ msg }) => {
     return (
         <>
-            <p className={cx(styles.message, styles.outgoingMessage)}>{msg}</p>
+            <div className={cx(styles.message, styles.outgoingMessage)}>
+                <p>{msg}</p>
+            </div>
             {<Circle src={robotSvg} alt={"avatar"} />}
         </>
     );
