@@ -9,9 +9,12 @@ Hasboon AI Based chat project:
 There is 2 options to launch this project: <br/>
 **(Make sure you navigated to project folder after cloning it)**
 
-- With basic launch command:<br/> `npm install && npm run dev command`
+- With basic launch command:<br/> `npm install && npm run dev command`<br/>
+  <u>App will be available on port 5173</u>
 
-- With docker command *(Make sure you have docker installed)*:<br/> `docker-compose up --build`
+
+- With docker command *(Make sure you have docker installed)*:<br/> `docker-compose up --build`<br/>
+<u>App will be available on port 5111</u>
 
 ## Usage
 
