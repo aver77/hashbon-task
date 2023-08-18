@@ -10,7 +10,7 @@ interface IBotMessage {
 const MyMessage: FC<IBotMessage> = ({ msg }) => {
     return (
         <>
-            <p className={cx(styles.message)}>{msg}</p>
+            <div className={cx(styles.message)}>{msg}</div>
             {
                 <Circle
                     className={styles.circle}
