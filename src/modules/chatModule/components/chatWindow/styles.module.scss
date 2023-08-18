@@ -7,6 +7,9 @@
   background: white;
   border-radius: $brDefault;
   padding: 36px 20px;
+  @media screen and (max-width: $dimensionMob) {
+    padding: 12px 8px;
+  }
 }
 
 .innerContainer {
@@ -14,4 +17,7 @@
   flex-direction: column;
   justify-content: flex-end;
   gap: 17px;
+  @media screen and (max-width: $dimensionMob) {
+    gap: 7px;
+  }
 }

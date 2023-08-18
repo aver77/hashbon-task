@@ -7,6 +7,9 @@
   background: $cDarkBlue;
   color: white;
   word-break: break-word;
+  @media screen and (max-width: $dimensionMob) {
+    padding: 8px 12px;
+  }
 }
 
 .circle {

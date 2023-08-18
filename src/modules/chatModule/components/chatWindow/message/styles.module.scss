@@ -21,4 +21,9 @@
   &.my {
     flex-direction: row;
   }
+
+  @media screen and (max-width: $dimensionMob) {
+    gap: 6px;
+    max-width: 80%;
+  }
 }
