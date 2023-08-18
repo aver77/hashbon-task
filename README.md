@@ -2,7 +2,7 @@
 
 ## Description
 
-Hasboon AI Based chat project:
+Hasboon AI Based chat project
 
 ## Launch
 
